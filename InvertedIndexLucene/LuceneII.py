@@ -1,4 +1,5 @@
 import sys, os, lucene
+import datetime
 from lucene import QueryParser, IndexSearcher, IndexReader, StandardAnalyzer, EnglishAnalyzer,TermPositionVector, SimpleFSDirectory, File, MoreLikeThis,VERSION, initVM, Version,FieldInfo, IndexWriter, IndexWriterConfig#, DirectoryReader
 # import sys
 import glob
@@ -42,7 +43,7 @@ def make_index():
     #             doc.add(Field("Chapter", str(chapter), Field.Store.YES, Field.Index.ANALYZED))
     #             doc.add(Field("Verse", str(verse), Field.Store.YES, Field.Index.ANALYZED))
     #             writer.addDocument(doc)
-    path = './../TestData/alldocs/*'   
+    path = './../../TestData/alldocs/*'   
     files = glob.glob(path)   
     for name in files: # 'file' is a builtin type, 'name' is a less-ambiguous variable name.
         print(name)
@@ -93,16 +94,23 @@ def search(indexDir,n, kwds):
     searcher.close()
 
 # print("fdsufhs")
-make_index()
+# make_index()
 
 fout = open('./Results/LQueryOut.txt','w+');
-fin = open('./../TestData/query.txt','rb');
+fout1 = open('./Results/TimeOut.txt','w+');
+fin = open('./../../TestData/query.txt','rb');
+A = datetime.datetime.now()
 for line in fin:
     # if line== <EOF> break
     k = line.split('  ');
-    print(k[0])
-    print(k[1])
+    # print(k[0])
+    # print(k[1])
+    a = datetime.datetime.now()
     search('./index_dir',k[0],k[1])
+    b = datetime.datetime.now()
+    print>>fout1, k[0],b-a
+B = datetime.datetime.now()
+print(B-A)
 
 
 # search('/home/greptruth/IR/index_dir','dsfsdjf')
